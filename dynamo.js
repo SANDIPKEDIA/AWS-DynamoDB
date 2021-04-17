@@ -9,6 +9,7 @@ AWS.config.update({
     secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY
 })
 
+
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'crud-api';//add
 
