@@ -1,5 +1,5 @@
 const axios =  require('axios');
-const {addOrUpdateCharacter} = require('./dynamo');
+const {addCharacter} = require('./dynamo');
 
 const seedData = async ()=>{
 const url ='http://hp-api.herokuapp.com/api/characters';
@@ -9,7 +9,7 @@ try{
 
 
     const characterPromises = characters.map((character,i)=>
-        addOrUpdateCharacter({...character,id: i+ ''})
+        addCharacter({...character,id: i+ ''})
     )
     await Promise.all(characterPromises);
 

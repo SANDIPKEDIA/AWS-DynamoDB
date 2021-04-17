@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCharacters, getCharacterById, UpdateCharacter, addCharacter, deleteCharacter } = require('./dynamo');
+const { getCharacters, getCharacterById, addorUpdateCharacter, deleteCharacter } = require('./dynamo');
 const app = express();
 
 app.use(express.json());
@@ -7,7 +7,7 @@ app.use(express.json());
 
 
 app.get('/', (req, res) => {
-  res.send("Hello")
+  res.send("Server is Running")
 })
 
 
@@ -25,12 +25,12 @@ app.get('/characters', async (req, res) => {
 
 
 
-app.get('/characters/:name', async (req, res) => {
-  const name = req.params.name;
+app.get('/characters/:id', async (req, res) => {
+  const id = req.params.id;
   console.log(id);
   try {
 
-    const character = await getCharacterById(name);
+    const character = await getCharacterById(id);
     res.json(character)
 
   } catch (error) {
@@ -58,10 +58,11 @@ app.post('/characters', async (req, res) => {
 
 app.put('/characters/:id', async (req, res) => {
   const character = req.body;
-  const id = req.params.id;
+  const {id}= req.params;
+  character.id = id
 
   try {
-    const updatedCharacter = await UpdateCharacter(id, character);
+    const updatedCharacter = await addorUpdateCharacter(character);
     res.json(updatedCharacter);
     res.json(character)
   }
